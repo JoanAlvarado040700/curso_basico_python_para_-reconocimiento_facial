@@ -7,3 +7,4 @@ print ( "Comparacion =", a == b) # comparacion
 print (a | b, "Union") #Union
 print ("Intercepcion= ",a&b)
 print ( "Diferencia= ", a-b)
+print ( "Simetrica", a^b)
