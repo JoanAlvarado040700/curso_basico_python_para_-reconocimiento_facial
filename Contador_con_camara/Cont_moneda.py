@@ -1,9 +1,9 @@
-import cv2 as cv
+from cv2 import cv2 as cv, imshow, waitKey
 import numpy as np
 
 
 def ordenarpuntos(puntos):
-    n_puntos=np.concatenate(puntos[0],puntos[1],puntos[2],puntos[4]).tolist()
+    n_puntos=np.concatenate([puntos[0],puntos[1],puntos[2],puntos[4]]).tolist()
     y_order = sorted(n_puntos,key=lambda n_puntos: n_puntos[1])
     x1_order = y_order[:2] 
     x1_order = sorted(x1_order,key=lambda x1_order:x1_order[0])
@@ -16,9 +16,9 @@ def aliniamiento(imagen,ancho,alto):
     grises = cv.cvtColor(imagen,cv.COLOR_BGR2GRAY)
     _,umbral =  cv.threshold(grises, 150,255, cv.THRESH_BINARY)
 
-    contorno,jerarquia = cv.findContours(umbral, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)[0]
+    contorno = cv.findContours(umbral, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)[0]
 
-    contorno = sorted(contorno, key= cv.contourArea, reversed=True)[:1]
+    contorno = sorted(contorno, key= cv.contourArea, reverse=True)[:1]
 
     for c in contorno:
         epsilon = 0.01*cv.arcLength(c,True)
@@ -43,7 +43,7 @@ while True:
         blur = cv.GaussianBlur(imagen_grises, (5,5),1)
         _,umbral2 = cv.threshold(blur,0,255,cv.THRESH_OTSU+cv.THRESH_BINARY_INV)
         cv.imshow("umbral 2", umbral2)
-        contorno2, jerarquia2= cv.findContours(umbral2, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)[0]
+        contorno2= cv.findContours(umbral2, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)[0]
         cv.drawContours(imagen_A6, contorno2, -1,(255, 0, 0),2)
         suma1 = 0.0
         suma2 = 0.0
@@ -68,12 +68,10 @@ while True:
         print("Sumatoria total: ", round(total,2))
         cv.imshow("Imagen", imagen_A6)
         cv.imshow("umbral", camara)
-    if cv.waitKey(1) == ord("q"):
+    if waitKey(1) == ord("q"):
         break
 capturavideo.release()
 cv.destroyAllWindows()
-
-
 
 
 

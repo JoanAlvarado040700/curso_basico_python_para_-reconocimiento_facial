@@ -18,4 +18,8 @@ while True:
 captura.release()
 cv.destroyAllWindows()
 
+def suma(n,n2):
+    n +n2
+
+suma(19,1)
 
